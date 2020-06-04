@@ -1,10 +1,10 @@
 {
-    "name": "weweb-timeline-list",
-    "type": "section",
+    "name": "ww-timeline-list",
+    "type": "wwObject",
     "wewebPublic": "true",
     "repository": {
         "type": "git",
-        "url": "https://github.com/WeWeb-Public/wwSection"
+        "url": "https://github.com/WeWeb-Public/ww-timeline-list"
     },
     "version": "0.0.1",
     "private": true,

@@ -37,7 +37,8 @@ export default {
     props: {
         list: {
             type: Array,
-            required: true
+            required: true,
+            default:[]
         },
         editMode: {
             type: Boolean,
@@ -88,7 +89,7 @@ export default {
             ]
         }
     }),
-    created() {
+    mounted() {
         this.items = this.list.map(item => {
             return {
                 ...item,

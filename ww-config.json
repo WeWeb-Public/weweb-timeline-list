@@ -1,3 +1,7 @@
 {
-    "componentPath": "./src/section.vue"
+    "componentPath": "./src/wwTimelineList.vue",
+    "content": {
+        "type": "ww-timeline-list",
+        "data": {}
+    }
 }
