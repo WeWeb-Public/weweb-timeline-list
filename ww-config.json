@@ -3,5 +3,20 @@
     "content": {
         "type": "ww-timeline-list",
         "data": {}
+    },
+    "cmsOptions": {
+        "wwObjectMenu": {
+            "items": [
+                {
+                    "name": "CUSTOMIZE",
+                    "main": true,
+                    "text": {
+                        "en": "Customize",
+                        "fr": "Customiser"
+                    },
+                    "action": "edit"
+                }
+            ]
+        }
     }
 }

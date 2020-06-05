@@ -4,47 +4,61 @@
 
 <!-- This is your HTML -->
 <template>
-  <div class="ww-timeline-list">
-      <wwContentList
-              :list="wwObject.data.items"
-              :edit-mode="editMode"
-              :new-item="getNewItem"
-              :on-list-changed="onListChanged"
-              :list-class="'list-container'"
-              :item-wrapper-class="'list-item-wrapper'"
-      >
-        <template #row="{item}">
-          <div class="list-bullet">
-            <div class="list-bullet-icon">
-              <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="12"
-                      height="12"
-                      rx="4"/>
-              </svg>
-            </div>
+  <div class="ww-timeline-list"
+       ref="root">
+    <wwContentList
+            :list="wwObject.data.items"
+            :edit-mode="editMode"
+            :new-item="getNewItem"
+            :on-list-changed="onListChanged"
+            :list-class="'list-container'"
+            :item-wrapper-class="'list-item-wrapper'"
+    >
+      <template #row="{item}">
+        <div class="list-bullet">
+          <div class="list-bullet-icon">
+            <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="12"
+                    height="12"
+                    rx="4"
+              />
+            </svg>
           </div>
-          <div class="list-item-text">
-            <wwObject
-                    :ww-object="item.text"
-                    ww-category="text"
-            ></wwObject>
-          </div>
-        </template>
-      </wwContentList>
-    </div>
+        </div>
+        <div class="list-item-text">
+          <wwObject
+                  :ww-object="item.text"
+                  ww-category="text"
+          ></wwObject>
+        </div>
+      </template>
+    </wwContentList>
+  </div>
 </template>
 
 <script>
     const wwo = window.wwLib.wwObject;
     const wwu = window.wwLib.wwUtils;
 
+    /* wwManager:start */
+    import './story';
     import wwContentList from './content-list.vue';
+    /* wwManager:end */
+
+    const styleDefaults = {
+        '--item-margin-bottom': '40px',
+        '--border-width': '4px',
+        '--border-offset': '4px',
+        '--border-color': '#dadada',
+        '--icon-size:': '12px',
+        '--icon-color': '#49b9b3'
+    };
 
     export default {
         name: '__COMPONENT_NAME__',
@@ -70,19 +84,25 @@
         },
         created () {
             this.init();
-            this.$emit('ww-loaded', this);
+        },
+        mounted () {
+            this.applyCustomisation(this.wwObject.data.styles);
         },
         methods: {
             init () {
                 let needUpdate = false;
-
                 this.wwObject.data = this.wwObject.data || {};
 
                 if (!this.wwObject.data.items) {
                     this.wwObject.data.items = [this.getNewItem()];
                     needUpdate = true;
                 }
-
+                if (!this.wwObject.data.styles) {
+                    this.wwObject.data.styles = {
+                        ...styleDefaults
+                    };
+                    needUpdate = true;
+                }
                 if (needUpdate) {
                     this.wwObjectCtrl.update(this.wwObject);
                 }
@@ -95,14 +115,40 @@
             }),
             onListChanged () {
                 this.wwObjectCtrl.update(this.wwObject);
+            },
+            applyCustomisation (values) {
+                Object.keys(values).forEach(key => {
+                    const value = values[key];
+                    if (value !== '') {
+                        this.wwObject.data.styles[key] = value;
+                        this.$refs.root.style.setProperty(key, value);
+                    }
+                });
+                this.wwObjectCtrl.update(this.wwObject);
+            },
+            /* wwManager:start */
+            async edit () {
+                this.wwObjectCtrl.update(this.wwObject);
+                const options = {
+                    firstPage: 'WW_TIMELINE_LIST_CUSTOM',
+                    data: {
+                        wwObject: this.wwObject
+                    }
+                };
+                const values = await wwLib.wwPopups.open(options);
+                this.applyCustomisation(values);
             }
+            /* wwManager:end */
         }
     };
 </script>
 
+
 <style lang="scss"
        scoped>
   .ww-timeline-list {
+    --text-size: 1em;
+
     .background {
       position: absolute;
       top: 0;
@@ -121,14 +167,6 @@
 
     .list-container::v-deep {
       .list-item-wrapper {
-        --item-margin-bottom: 16px;
-        --text-size: 1em;
-        --border-width: 4px;
-        --border-offset: 4px;
-        --border-color: #dadada;
-        --icon-size: 12px;
-        --icon-color: #49b9b3;
-
         position: relative;
         display: flex;
         align-items: flex-start;
