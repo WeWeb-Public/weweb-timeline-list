@@ -51,15 +51,6 @@
     import wwContentList from './content-list.vue';
     /* wwManager:end */
 
-    const styleDefaults = {
-        '--item-margin-bottom': '40px',
-        '--border-width': '4px',
-        '--border-offset': '4px',
-        '--border-color': '#dadada',
-        '--icon-size:': '12px',
-        '--icon-color': '#49b9b3'
-    };
-
     export default {
         name: '__COMPONENT_NAME__',
         components: {
@@ -73,23 +64,23 @@
             }
         },
         computed: {
-            wwObject () {
+            wwObject() {
                 return this.wwObjectCtrl.get();
             },
             /* wwManager:start */
-            editMode () {
+            editMode() {
                 return this.wwObjectCtrl.getSectionCtrl().getEditMode() === 'CONTENT';
             }
             /* wwManager:end */
         },
-        created () {
+        created() {
             this.init();
         },
-        mounted () {
+        mounted() {
             this.applyCustomisation(this.wwObject.data.styles);
         },
         methods: {
-            init () {
+            init() {
                 let needUpdate = false;
                 this.wwObject.data = this.wwObject.data || {};
 
@@ -97,11 +88,10 @@
                     this.wwObject.data.items = [this.getNewItem()];
                     needUpdate = true;
                 }
-                if (!this.wwObject.data.styles) {
-                    this.wwObject.data.styles = {
-                        ...styleDefaults
-                    };
-                    needUpdate = true;
+                if (this.wwObject.data.styles) {
+                    this.applyCustomisation((this.wwObject.data.styles));
+                } else {
+                    this.wwObject.data.styles = {};
                 }
                 if (needUpdate) {
                     this.wwObjectCtrl.update(this.wwObject);
@@ -113,10 +103,10 @@
                     type: 'ww-text'
                 })
             }),
-            onListChanged () {
+            onListChanged() {
                 this.wwObjectCtrl.update(this.wwObject);
             },
-            applyCustomisation (values) {
+            applyCustomisation(values) {
                 Object.keys(values).forEach(key => {
                     const value = values[key];
                     if (value !== '') {
@@ -127,7 +117,7 @@
                 this.wwObjectCtrl.update(this.wwObject);
             },
             /* wwManager:start */
-            async edit () {
+            async edit() {
                 this.wwObjectCtrl.update(this.wwObject);
                 const options = {
                     firstPage: 'WW_TIMELINE_LIST_CUSTOM',
@@ -136,6 +126,7 @@
                     }
                 };
                 const values = await wwLib.wwPopups.open(options);
+                this.wwObjectCtrl.update(this.wwObject);
                 this.applyCustomisation(values);
             }
             /* wwManager:end */
@@ -147,6 +138,12 @@
 <style lang="scss"
        scoped>
   .ww-timeline-list {
+    --item-margin-bottom: 16px;
+    --border-width: 4px;
+    --border-offset: 4px;
+    --border-color: #dadada;
+    --icon-size: 12px;
+    --icon-color: #49b9b3;
     --text-size: 1em;
 
     .background {
