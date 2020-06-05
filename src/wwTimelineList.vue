@@ -4,14 +4,7 @@
 
 <!-- This is your HTML -->
 <template>
-  <div class="ww-section-timeline-list">
-    <div class="section-container">
-      <!-- wwManager:start -->
-      <wwSectionEditMenu
-              v-bind:sectionCtrl="sectionCtrl"
-      ></wwSectionEditMenu>
-      <!-- wwManager:end -->
-
+  <div class="ww-timeline-list">
       <wwContentList
               :list="wwObject.data.items"
               :edit-mode="editMode"
@@ -45,7 +38,6 @@
         </template>
       </wwContentList>
     </div>
-  </div>
 </template>
 
 <script>
@@ -110,12 +102,7 @@
 
 <style lang="scss"
        scoped>
-  .ww-section-timeline-list {
-    .section-container {
-      width: 1200px;
-      margin: auto;
-    }
-
+  .ww-timeline-list {
     .background {
       position: absolute;
       top: 0;
@@ -126,7 +113,7 @@
 
     .list-container {
       position: relative;
-      max-width: 576px;
+      width: 100%;
       padding: 0;
       margin: auto;
       list-style-type: none;
