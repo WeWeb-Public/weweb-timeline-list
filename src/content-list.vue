@@ -124,7 +124,7 @@ export default {
             const head = items.slice(0, index);
             const tail = index === 0 ? items : items.slice(index);
             this.items = [...head, this.createItem(), ...tail];
-            this.onListChanged();
+            this.onListChanged(this.items);
         },
         removeItem(item) {
             if (this.items.length === 1) return;

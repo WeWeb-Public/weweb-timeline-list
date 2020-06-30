@@ -64,23 +64,23 @@
             }
         },
         computed: {
-            wwObject() {
+            wwObject () {
                 return this.wwObjectCtrl.get();
             },
             /* wwManager:start */
-            editMode() {
+            editMode () {
                 return this.wwObjectCtrl.getSectionCtrl().getEditMode() === 'CONTENT';
             }
             /* wwManager:end */
         },
-        created() {
+        created () {
             this.init();
         },
-        mounted() {
+        mounted () {
             this.applyCustomisation(this.wwObject.data.styles);
         },
         methods: {
-            init() {
+            init () {
                 let needUpdate = false;
                 this.wwObject.data = this.wwObject.data || {};
 
@@ -103,10 +103,11 @@
                     type: 'ww-text'
                 })
             }),
-            onListChanged() {
+            onListChanged (items) {
+                this.wwObject.data.items = items;
                 this.wwObjectCtrl.update(this.wwObject);
             },
-            applyCustomisation(values) {
+            applyCustomisation (values) {
                 Object.keys(values).forEach(key => {
                     const value = values[key];
                     if (value !== '') {
@@ -117,7 +118,7 @@
                 this.wwObjectCtrl.update(this.wwObject);
             },
             /* wwManager:start */
-            async edit() {
+            async edit () {
                 this.wwObjectCtrl.update(this.wwObject);
                 const options = {
                     firstPage: 'WW_TIMELINE_LIST_CUSTOM',
