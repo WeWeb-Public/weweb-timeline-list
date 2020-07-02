@@ -1,30 +1,12 @@
 <template>
     <ul :class="listClass">
-        <li
-            v-for="(item, index) in items"
-            :class="itemWrapperClass"
-            :key="item.uniqueId"
-        >
+        <li v-for="(item, index) in items" :class="itemWrapperClass" :key="item.uniqueId">
             <!-- wwManager:start -->
-            <wwContextMenu
-                v-if="editMode"
-                class="ww-orange-button"
-                tag="div"
-                :options="elemOptions"
-                @remove="removeItem(item)"
-                @addBefore="addItemBefore(index)"
-                @addAfter="addItemAfter(index)"
-            >
+            <wwContextMenu v-if="editMode" class="ww-orange-button" tag="div" :options="elemOptions" @remove="removeItem(item)" @addBefore="addItemBefore(index)" @addAfter="addItemAfter(index)">
                 <wwOrangeButton style="z-index: 10;"></wwOrangeButton>
             </wwContextMenu>
             <!-- wwManager:end -->
-            <slot
-                name="row"
-                :item="item"
-                :index="index"
-                :toggleItem="toggleItem"
-                :isItemSelected="isItemSelected"
-            ></slot>
+            <slot name="row" :item="item" :index="index" :toggleItem="toggleItem" :isItemSelected="isItemSelected"></slot>
         </li>
     </ul>
 </template>
@@ -33,12 +15,12 @@
 const wwu = window.wwLib.wwUtils;
 
 export default {
-    name: 'wwContentList',
+    name: 'wwTimelineListContentList',
     props: {
         list: {
             type: Array,
             required: true,
-            default:[]
+            default: []
         },
         editMode: {
             type: Boolean,
