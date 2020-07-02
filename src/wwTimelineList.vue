@@ -5,7 +5,7 @@
 <!-- This is your HTML -->
 <template>
     <div class="ww-timeline-list" ref="root">
-        <wwContentList :list="wwObject.data.items" :edit-mode="editMode" :new-item="getNewItem" :on-list-changed="onListChanged" :list-class="'list-container'" :item-wrapper-class="'list-item-wrapper'">
+        <wwTimelineListContentList :list="wwObject.data.items" :edit-mode="editMode" :new-item="getNewItem" :on-list-changed="onListChanged" :list-class="'list-container'" :item-wrapper-class="'list-item-wrapper'">
             <template #row="{item}">
                 <div class="list-bullet">
                     <div class="list-bullet-icon">
@@ -18,7 +18,7 @@
                     <wwObject :ww-object="item.text" ww-category="text"></wwObject>
                 </div>
             </template>
-        </wwContentList>
+        </wwTimelineListContentList>
     </div>
 </template>
 
